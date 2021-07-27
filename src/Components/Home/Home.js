@@ -19,8 +19,7 @@ const Home = () => {
     const handleUpdateString = (e) => {
         let old_str = str
         let new_str = e.target.value
-        setStr(new_str)
-
+        
         if(old_str.length < new_str.length) {
             if(new_str[counter] === para[counter]) {
                 console.log("YES");
@@ -28,6 +27,13 @@ const Home = () => {
                 console.log("NO");
             }
         }
+        if(new_str.length === para.length) {
+            if(new_str === para) alert('Congratulations, You have successfully typed the given text !!')
+            else alert('You FAILED ( typed incorrect text )... Try Again')
+            new_str = '' 
+        }
+
+        setStr(new_str)
         setCounter(new_str.length)
     }
 
