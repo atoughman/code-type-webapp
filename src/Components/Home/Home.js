@@ -8,7 +8,7 @@ const Home = () => {
     const [counter, setCounter] = useState(0)
     const [ isTyped, setIsTyped] = useState(false)
     const [listSpan, setListSpan] = useState(null)
-    let para = 'what are you doing'
+    let para = 'what are you doing OKAY'
     
     useEffect(() => {
         setTimeout(() => {
