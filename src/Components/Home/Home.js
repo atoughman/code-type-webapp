@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import './Home.scss'
-
+// Checking signature [ ignore ]
 const Home = () => {
 
     const [code, setCode] = useState(null)
@@ -19,7 +19,7 @@ const Home = () => {
             setCode(listt)
 
             let tmp = document.querySelectorAll('span[data-id]')
-            setListSpan(tmp) // I still don't get how useEffect actually works
+            setListSpan(tmp) // I still don't get how useEffect actually works REALLY
         }, 1000);
     }, [para])
 
