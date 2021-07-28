@@ -10,17 +10,34 @@ const Home = () => {
     const [counter, setCounter] = useState(0)
     const [listSpan, setListSpan] = useState(null)
     const [givenText, setGivenText] = useState('')
-    
+    const [message, setMessage] = useState('Click on above field to Start Type')
+
     let getRandomInt = () => {
         return Math.floor(Math.random() * DATA_LEN);
     }
     
+    let handleActiveState = () => {
+        let textBox = document.querySelector('button[id="text-box"]')
+
+        if(textBox === document.activeElement) {
+            setMessage('!! Start Typing !!')
+            document.querySelector('input[type]').focus()
+        } else setMessage('Click on above Text to Start Type')
+
+        console.log('I am rnning',document.activeElement);
+    }
+
     const [num, setNum] = useState(getRandomInt())
     
     const handleRefresh = () => {
         let rand = num
         while(rand === num ) rand = getRandomInt()
         setNum(rand)
+        for (let i = 0; i < listSpan.length; i++) {
+            listSpan[i].removeAttribute('class')
+        }
+        setStr('')
+        setCounter(0)
     }
 
     useEffect(() => {
@@ -38,6 +55,7 @@ const Home = () => {
                 setCode(listt)
                 let tmp = document.querySelectorAll('span[data-id]')
                 setListSpan(tmp)
+                tmp[0].setAttribute('class', 'active')   // to highlight the first character
             })
     }, [num])
 
@@ -51,19 +69,19 @@ const Home = () => {
             } else {
                 listSpan[counter].setAttribute('class', 'incorrect')
             }
+            if(counter + 1 < listSpan.length)
+                listSpan[counter + 1].classList.add('active') 
         } else {
             let diff = old_str.length - new_str.length
-            for (let i = 1; i <= diff; i++) {
+            for (let i = 0; i <= diff; i++) {
                 listSpan[counter - i].removeAttribute('class')
             }
+            listSpan[counter-diff].setAttribute('class', 'active') 
         }
         if (new_str.length === givenText.length) {
             if (new_str === givenText) alert('Congratulations, You have successfully typed the given text !!')
             else alert('You FAILED ( typed incorrect text )... Try Again')
             new_str = ''
-            for (let i = 0; i < listSpan.length; i++) {
-                listSpan[i].removeAttribute('class')
-            }
             handleRefresh()
         }
 
@@ -72,12 +90,15 @@ const Home = () => {
     }
 
     return (
-        <div className="home">
+        <div className="home" onClick={handleActiveState}>
             <div className="second">
                 <div className="code-wrapper">
-                    {code ? code.map((ch,i) => <span data-id={i} key={i}>{ch}</span>) : 'Loading Text...'}
+                    <button id="text-box">
+                        {code ? code.map((ch,i) => <span data-id={i} key={i}>{ch}</span>) : 'Loading Text...'}
+                    </button>
                 </div>
                 <input type="text" value={str} onChange={handleUpdateString}></input>
+                <p>{message}</p>
                 <button onClick={handleRefresh}>Change Text</button>
             </div>
         </div>
