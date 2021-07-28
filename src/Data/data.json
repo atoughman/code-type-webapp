@@ -11,6 +11,30 @@
         {
             "text": "return 0;",
             "id": 2
-        }
+        },
+        {
+            "text": "for(int i=0; i<n; i++)",
+            "id": 3
+        },
+        {
+            "text": "vector<int> v(n);",
+            "id": 4
+        },
+        {
+            "text": "using namespace std;",
+            "id": 5
+        },
+        {
+            "text": "#define ll long long",
+            "id": 6
+        },
+        {
+            "text": "cout << \"hello\" << endl;",
+            "id": 7
+        },
+        {
+            "text": "bool isTyped = false;",
+            "id": 8
+        },
     ]
 }
