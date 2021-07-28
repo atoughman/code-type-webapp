@@ -3,27 +3,29 @@ import './Home.scss'
 
 const Home = () => {
 
+    const DATA_LEN = 9
+
     const [code, setCode] = useState(null)
     const [str, setStr] = useState('')
     const [counter, setCounter] = useState(0)
     const [listSpan, setListSpan] = useState(null)
     const [givenText, setGivenText] = useState('')
-    const [refresh, setRefresh] = useState(0)
-    const [num, setNum] = useState(0)
-
-    let getRandomInt = (max) => {
-        return Math.floor(Math.random() * max);
+    
+    let getRandomInt = () => {
+        return Math.floor(Math.random() * DATA_LEN);
+    }
+    
+    const [num, setNum] = useState(getRandomInt())
+    
+    const handleRefresh = () => {
+        let rand = num
+        while(rand === num ) rand = getRandomInt()
+        setNum(rand)
     }
 
     useEffect(() => {
 
-        // #1 to make sure we get new text everytime on refresh
-        let rand = num
-        while(rand === num ) rand = getRandomInt(3)
-        setNum(rand)
-        // #1 DONE
-
-        fetch('http://localhost:8000/para/' + rand)
+        fetch('http://localhost:8000/para/' + num)
             .then(res => {
                 return res.json()
             })
@@ -35,9 +37,9 @@ const Home = () => {
                 }
                 setCode(listt)
                 let tmp = document.querySelectorAll('span[data-id]')
-                setListSpan(tmp) // I still don't get how useEffect actually works REALLY
+                setListSpan(tmp)
             })
-    }, [refresh])
+    }, [num])
 
     const handleUpdateString = (e) => {
         let old_str = str
@@ -45,10 +47,8 @@ const Home = () => {
 
         if (old_str.length < new_str.length) {
             if (new_str[counter] === givenText[counter]) {
-                console.log("YES");
                 listSpan[counter].setAttribute('class', 'correct')
             } else {
-                console.log("NO");
                 listSpan[counter].setAttribute('class', 'incorrect')
             }
         } else {
@@ -64,7 +64,7 @@ const Home = () => {
             for (let i = 0; i < listSpan.length; i++) {
                 listSpan[i].removeAttribute('class')
             }
-            setRefresh(refresh + 1)
+            handleRefresh()
         }
 
         setStr(new_str)
@@ -78,7 +78,7 @@ const Home = () => {
                     {code ? code.map((ch,i) => <span data-id={i} key={i}>{ch}</span>) : 'Loading Text...'}
                 </div>
                 <input type="text" value={str} onChange={handleUpdateString}></input>
-                <button onClick={() => setRefresh(refresh + 1)}>Change Text</button>
+                <button onClick={handleRefresh}>Change Text</button>
             </div>
         </div>
     );
