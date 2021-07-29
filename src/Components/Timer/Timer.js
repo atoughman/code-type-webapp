@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './Timer.scss'
 
-const Timer = ({isRunning, isReset, toggleReset}) => {
+const Timer = ({isRunning, isReset}) => {
 
     const [time, setTime] = useState(0)
     
