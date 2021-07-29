@@ -104,7 +104,7 @@ const Home = () => {
         setALoading(true)
         setTimeout(() => {
             setALoading(false)
-        }, 2000);
+        }, 3000);
     }
 
     let convertTextToChar = (text) => {
@@ -172,6 +172,7 @@ const Home = () => {
                     ? <AnticipationLoading />
                     : <>
                         <p>{message}</p>
+                        <Timer isRunning={isRunning} isReset={isReset} />
                         <div className="code-wrapper">
                             <button id="text-box">
                                 {code ? code.map((ch, i) => <span data-id={i} key={i}>{ch}</span>) : 'Loading Text...'}
@@ -180,10 +181,9 @@ const Home = () => {
                     </>
                 }
                 <input hide="true" type="text" value={str} onChange={handleUpdateString}></input>
-                <button onClick={handleRefresh}>Generate Random Text</button>
-                <Timer isRunning={isRunning} isReset={isReset} />
                 <CustomText cusText={cusText} setCusText={setCusText} />
                 <button onClick={handleCustomTextSubmit}>Add Custom Text</button>
+                <button onClick={handleRefresh}>Generate Random Text</button>
             </div>
         </div>
     );
