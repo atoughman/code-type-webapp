@@ -13,7 +13,7 @@
     height: 30vh;
 }
 
-input {
+input[hide="true"] {
     opacity: 0;
     cursor: default;
     position: absolute;
@@ -21,6 +21,8 @@ input {
     height: 1px;
     top: 0;
     left: 0;
+    color: transparent;
+    position: relative;
 }
 
 #text-box {
@@ -51,7 +53,7 @@ span.incorrect {
     font-weight: 700;
 }
 
-input {
-    color: transparent;
-    position: relative;
+button {
+    padding: 10px;
+    cursor: pointer;
 }

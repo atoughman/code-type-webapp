@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import CustomText from "../CustomText/CustomText";
 import Timer from "../Timer/Timer";
 import './Home.scss'
 
@@ -6,15 +7,27 @@ const Home = () => {
 
     const DATA_LEN = 9
 
+    // contains list of characters of givenText
     const [code, setCode] = useState(null)
+
+    // str stores , how much the user has typed ( in active state )
     const [str, setStr] = useState('')
     const [counter, setCounter] = useState(0)
+
+    // stores all the spans, to update specific spans
     const [listSpan, setListSpan] = useState(null)
+
+    // contains text, out of which spans are created
+    // also it's used to compare, whether the typed string is matching or not
     const [givenText, setGivenText] = useState('')
     const [message, setMessage] = useState('Click on above field to Start Type')
     const [isRunning, setIsRunning] = useState(false)
+
     // isReset is a toggler, which on change helps reset the timer. It's true or false value doesn't have specific meaning. State change is what matters :)
     const [isReset, setIsReset] = useState(false)
+
+    // text user want to practice
+    const [cusText, setCusText] = useState('')
 
     let getRandomInt = () => {
         return Math.floor(Math.random() * DATA_LEN);
@@ -55,22 +68,25 @@ const Home = () => {
         // so it auto sets setIsReset :) in handleActiveState()
     }
 
-    useEffect(() => {
+    let convertTextToChar = (text) => {
+        setGivenText(text)
+        let listt = []
+        for (let i = 0; i < text.length; i++) {
+            listt.push(text[i]);
+        }
+        setCode(listt)
+        let tmp = document.querySelectorAll('span[data-id]')
+        setListSpan(tmp)
+        tmp[0].setAttribute('class', 'active')   // to highlight the first character
+    }
 
+    useEffect(() => {
         fetch('http://localhost:8000/para/' + num)
             .then(res => {
                 return res.json()
             })
             .then(data => {
-                setGivenText(data.text)
-                let listt = []
-                for (let i = 0; i < data.text.length; i++) {
-                    listt.push(data.text[i]);
-                }
-                setCode(listt)
-                let tmp = document.querySelectorAll('span[data-id]')
-                setListSpan(tmp)
-                tmp[0].setAttribute('class', 'active')   // to highlight the first character
+                convertTextToChar(data.text)
             })
     }, [num])
 
@@ -104,6 +120,13 @@ const Home = () => {
         setCounter(new_str.length)
     }
 
+    let handleCustomTextSubmit = () => {
+
+        if(cusText) convertTextToChar(cusText)
+        else alert('Field cannot be empty')
+        setCusText('')
+    }
+
     return (
         <div className="home" onClick={handleActiveState}>
             <div className="second">
@@ -112,10 +135,12 @@ const Home = () => {
                         {code ? code.map((ch,i) => <span data-id={i} key={i}>{ch}</span>) : 'Loading Text...'}
                     </button>
                 </div>
-                <input type="text" value={str} onChange={handleUpdateString}></input>
+                <input hide="true" type="text" value={str} onChange={handleUpdateString}></input>
                 <p>{message}</p>
-                <button onClick={handleRefresh}>Change Text</button>
+                <button onClick={handleRefresh}>Generate Random Text</button>
                 <Timer isRunning={isRunning} isReset={isReset} toggleReset={toggleReset}/>
+                <CustomText cusText={cusText} setCusText={setCusText}/>
+                <button onClick={handleCustomTextSubmit}>Add Custom Text</button>
             </div>
         </div>
     );
