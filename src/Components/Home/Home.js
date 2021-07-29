@@ -46,13 +46,19 @@ const Home = () => {
         }
 
     }
-
+    
     const [num, setNum] = useState(getRandomInt())
     
     let toggleReset = () => {
         setIsReset(reset => !reset)
     }
 
+    const handleReset = () => {
+        toggleReset()
+        setStr('')
+        setCounter(0)
+    }
+    
     const handleRefresh = () => {
         let rand = num
         while(rand === num ) rand = getRandomInt()
@@ -60,9 +66,7 @@ const Home = () => {
         for (let i = 0; i < listSpan.length; i++) {
             listSpan[i].removeAttribute('class')
         }
-        setStr('')
-        setCounter(0)
-        toggleReset()
+        handleReset()
         // why we don't have to setIsReset here, without it why does it work ?
         // bcoz, to change text, we click on button, active element changes,
         // so it auto sets setIsReset :) in handleActiveState()
@@ -125,6 +129,9 @@ const Home = () => {
         if(cusText) convertTextToChar(cusText)
         else alert('Field cannot be empty')
         setCusText('')
+        document.querySelector('button[id="text-box"]').focus()
+        handleActiveState()
+        handleReset()
     }
 
     return (
