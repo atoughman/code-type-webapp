@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import AnticipationLoading from "../AnticipationLoading/AnticipationLoading";
 import CustomText from "../CustomText/CustomText";
 import Timer from "../Timer/Timer";
 import './Home.scss'
@@ -29,26 +30,29 @@ const Home = () => {
     // text user want to practice
     const [cusText, setCusText] = useState('')
 
+    // anticipation loading ( eg. 3...2...1..) 
+    const [aLoading, setALoading] = useState(true)
+
     let getRandomInt = () => {
         return Math.floor(Math.random() * DATA_LEN);
     }
-    
+
     let handleActiveState = () => {
         let textBox = document.querySelector('button[id="text-box"]')
 
-        if(textBox === document.activeElement && message !== '!! Start Typing !!') {
+        if (textBox === document.activeElement && message !== '!! Start Typing !!') {
             setMessage('!! Start Typing !!')
             document.querySelector('input[type]').focus()
             setIsRunning(true);
-        } else if(textBox !== document.activeElement && message === '!! Start Typing !!'){
+        } else if (textBox !== document.activeElement && message === '!! Start Typing !!') {
             setMessage('Click on above Text to Start Type')
             setIsRunning(false);
         }
 
     }
-    
+
     const [num, setNum] = useState(getRandomInt())
-    
+
     let toggleReset = () => {
         setIsReset(reset => !reset)
     }
@@ -57,20 +61,36 @@ const Home = () => {
         toggleReset()
         setStr('')
         setCounter(0)
+        setALoading(true)
     }
-    
+
     const handleRefresh = () => {
         let rand = num
-        while(rand === num ) rand = getRandomInt()
-        setNum(rand)
+        while (rand === num) rand = getRandomInt()
         for (let i = 0; i < listSpan.length; i++) {
             listSpan[i].removeAttribute('class')
         }
+        setNum(rand)
         handleReset()
         // why we don't have to setIsReset here, without it why does it work ?
         // bcoz, to change text, we click on button, active element changes,
         // so it auto sets setIsReset :) in handleActiveState()
     }
+
+    let highlighFirstChar = async () => {
+        setALoading(true)
+        setTimeout(() => {
+            setALoading(false)
+        }, 2000);
+    }
+    
+    useEffect(() => {
+        if(!aLoading) {
+            let tmp = document.querySelectorAll('span[data-id]')
+            setListSpan(tmp)
+            tmp[0].setAttribute('class', 'active')   // to highlight the first character
+        }
+    }, [aLoading])
 
     let convertTextToChar = (text) => {
         setGivenText(text)
@@ -79,9 +99,7 @@ const Home = () => {
             listt.push(text[i]);
         }
         setCode(listt)
-        let tmp = document.querySelectorAll('span[data-id]')
-        setListSpan(tmp)
-        tmp[0].setAttribute('class', 'active')   // to highlight the first character
+        highlighFirstChar()
     }
 
     useEffect(() => {
@@ -104,14 +122,14 @@ const Home = () => {
             } else {
                 listSpan[counter].setAttribute('class', 'incorrect')
             }
-            if(counter + 1 < listSpan.length)
-                listSpan[counter + 1].classList.add('active') 
+            if (counter + 1 < listSpan.length)
+                listSpan[counter + 1].classList.add('active')
         } else {
             let diff = old_str.length - new_str.length
             for (let i = 0; i <= diff; i++) {
                 listSpan[counter - i].removeAttribute('class')
             }
-            listSpan[counter-diff].setAttribute('class', 'active') 
+            listSpan[counter - diff].setAttribute('class', 'active')
         }
         if (new_str.length === givenText.length) {
             if (new_str === givenText) alert('Congratulations, You have successfully typed the given text !!')
@@ -126,7 +144,7 @@ const Home = () => {
 
     let handleCustomTextSubmit = () => {
 
-        if(cusText) convertTextToChar(cusText)
+        if (cusText) convertTextToChar(cusText)
         else alert('Field cannot be empty')
         setCusText('')
         document.querySelector('button[id="text-box"]').focus()
@@ -137,16 +155,19 @@ const Home = () => {
     return (
         <div className="home" onClick={handleActiveState}>
             <div className="second">
-                <div className="code-wrapper">
-                    <button id="text-box">
-                        {code ? code.map((ch,i) => <span data-id={i} key={i}>{ch}</span>) : 'Loading Text...'}
-                    </button>
-                </div>
+                {aLoading
+                    ? <AnticipationLoading />
+                    : <div className="code-wrapper">
+                        <button id="text-box">
+                            {code ? code.map((ch, i) => <span data-id={i} key={i}>{ch}</span>) : 'Loading Text...'}
+                        </button>
+                    </div>
+                }
                 <input hide="true" type="text" value={str} onChange={handleUpdateString}></input>
                 <p>{message}</p>
                 <button onClick={handleRefresh}>Generate Random Text</button>
-                <Timer isRunning={isRunning} isReset={isReset} toggleReset={toggleReset}/>
-                <CustomText cusText={cusText} setCusText={setCusText}/>
+                <Timer isRunning={isRunning} isReset={isReset} toggleReset={toggleReset} />
+                <CustomText cusText={cusText} setCusText={setCusText} />
                 <button onClick={handleCustomTextSubmit}>Add Custom Text</button>
             </div>
         </div>
