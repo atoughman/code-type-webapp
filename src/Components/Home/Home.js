@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Timer from "../Timer/Timer";
 import './Home.scss'
 
 const Home = () => {
@@ -11,6 +12,9 @@ const Home = () => {
     const [listSpan, setListSpan] = useState(null)
     const [givenText, setGivenText] = useState('')
     const [message, setMessage] = useState('Click on above field to Start Type')
+    const [isRunning, setIsRunning] = useState(false)
+    // isReset is a toggler, which on change helps reset the timer. It's true or false value doesn't have specific meaning. State change is what matters :)
+    const [isReset, setIsReset] = useState(false)
 
     let getRandomInt = () => {
         return Math.floor(Math.random() * DATA_LEN);
@@ -19,16 +23,23 @@ const Home = () => {
     let handleActiveState = () => {
         let textBox = document.querySelector('button[id="text-box"]')
 
-        if(textBox === document.activeElement) {
+        if(textBox === document.activeElement && message !== '!! Start Typing !!') {
             setMessage('!! Start Typing !!')
             document.querySelector('input[type]').focus()
-        } else setMessage('Click on above Text to Start Type')
+            setIsRunning(true);
+        } else if(textBox !== document.activeElement && message === '!! Start Typing !!'){
+            setMessage('Click on above Text to Start Type')
+            setIsRunning(false);
+        }
 
-        console.log('I am rnning',document.activeElement);
     }
 
     const [num, setNum] = useState(getRandomInt())
     
+    let toggleReset = () => {
+        setIsReset(reset => !reset)
+    }
+
     const handleRefresh = () => {
         let rand = num
         while(rand === num ) rand = getRandomInt()
@@ -38,6 +49,7 @@ const Home = () => {
         }
         setStr('')
         setCounter(0)
+        toggleReset()
     }
 
     useEffect(() => {
@@ -100,6 +112,7 @@ const Home = () => {
                 <input type="text" value={str} onChange={handleUpdateString}></input>
                 <p>{message}</p>
                 <button onClick={handleRefresh}>Change Text</button>
+                <Timer isRunning={isRunning} isReset={isReset} toggleReset={toggleReset}/>
             </div>
         </div>
     );
