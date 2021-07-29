@@ -21,7 +21,7 @@ const Timer = ({isRunning, isReset, toggleReset}) => {
             // cleanup function
             clearInterval(interval)
         }
-    }, [isRunning, time])
+    }, [isRunning])
 
     return (
         <p>Time Elapsed : {time} sec</p>

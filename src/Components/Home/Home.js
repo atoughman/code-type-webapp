@@ -50,6 +50,9 @@ const Home = () => {
         setStr('')
         setCounter(0)
         toggleReset()
+        // why we don't have to setIsReset here, without it why does it work ?
+        // bcoz, to change text, we click on button, active element changes,
+        // so it auto sets setIsReset :) in handleActiveState()
     }
 
     useEffect(() => {
