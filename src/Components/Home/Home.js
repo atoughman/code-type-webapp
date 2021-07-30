@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
+
+// importing different components
 import AnticipationLoading from "../AnticipationLoading/AnticipationLoading";
 import CustomText from "../CustomText/CustomText";
 import Timer from "../Timer/Timer";
+
+// for styling
 import './Home.scss'
 
 const Home = () => {
-
+    // [ HARD CODED ] number of different texts in data.json
     const DATA_LEN = 9
 
     // contains list of characters of givenText
@@ -39,16 +43,39 @@ const Home = () => {
     // anticipation loading ( eg. 3...2...1..) 
     const [aLoading, setALoading] = useState(true)
 
+
+    /**
+     * To generate a random number in range [ 0, DATA_LEN )
+     * @returns number
+     */
+
     let getRandomInt = () => {
         return Math.floor(Math.random() * DATA_LEN);
     }
 
+    // which text should be fetched from data.json [ 0 to DATA_len ) is stored in num
     const [num, setNum] = useState(getRandomInt())
 
+    /**
+     * It toggles the boolean "reset" between true and false
+     */
     let toggleReset = () => {
         setIsReset(reset => !reset)
     }
 
+    /** function => handleActiveState()
+     * It is used to detect if a user is eligible to type the text... and hence displays
+     * corresponding message on screen.
+     * if yes
+     *     it changes message
+     *     it focuses input field which is hidden for user
+     *     it resumes the timer
+     * if no
+     *    it changes message
+     *    it stops the timer
+     * 
+     * P.S I have put double condition check to avoid running this function again and again
+     */
     let handleActiveState = () => {
         let textBox = document.querySelector('button[id="text-box"]')
 
@@ -64,9 +91,9 @@ const Home = () => {
     }
 
     /**
-     * handle focus is fired only when text changes, so it is fine
+     * handle focus is fired only when Giventext changes, so it is fine
      * to set typed string to emtpy
-     * set at which index cursor is to 0
+     * set at which index cursor is... to 0
      * toggle reset which help to reset timer to 0
      * auto shift focus to typing text, to save an extra click
      */
@@ -78,6 +105,13 @@ const Home = () => {
         handleActiveState()
     }
 
+    /**
+     * When user clicks on generate random text... we need to keep everything in place
+     * except, the given text should change... hence
+     * - it generates a new random number
+     * - removes all the class states ( active, correct etc. ) from the current text
+     * - reset the timer to 0
+     */
     const handleRefresh = () => {
         let rand = num
         while (rand === num) rand = getRandomInt()
@@ -91,6 +125,18 @@ const Home = () => {
         // so it auto sets setIsReset :) in handleActiveState()
     }
 
+    /**
+     * It is fired when we need anticipation loader
+     * to fire this, we just toggle aLoading variable
+     * 
+     * - we locally store list of elements ( span ) who have data-id attribute in them.
+     * - we then assign it to ListSpan so we can access it globally in code.
+     * - we then set first span class as active.. 
+     * 
+     * P.S. Since it is also fired when aLoading is true ( coz that's also a state change )...
+     *      I have put a condition to run the actual code only when aLoading is false
+     *      because only then the spans are rendered and ony then we can grab them by below method 
+     */
     useEffect(() => {
         if (!aLoading) {
             let tmp = document.querySelectorAll('span[data-id]')
@@ -100,6 +146,15 @@ const Home = () => {
         }
     }, [aLoading])
 
+
+    /**
+     * - we are intentionally making user wait for 3 seconds... coz till then aLoading is true
+     *   and hence anticipation loader is shown.
+     * 
+     *  P.S. Not sure if it has to be async
+     *  READ MORE about anticipation loader in #4 Pull Request in github
+     *  https://github.com/amanRecreates/code-type-webapp/pull/4
+     */
     let highlighFirstChar = async () => {
         setALoading(true)
         setTimeout(() => {
@@ -107,6 +162,15 @@ const Home = () => {
         }, 3000);
     }
 
+    /**
+     * It converts given text to array where each index stores single character
+     * 
+     * @param {string} text 
+     * 
+     * - We store this array in some state, so that we can access it across code.
+     * - At last we highlight the first character of text..to let user know where cursor is.. &
+     *   what character to type first.
+     */
     let convertTextToChar = (text) => {
         setGivenText(text)
         let listt = []
@@ -117,6 +181,16 @@ const Home = () => {
         highlighFirstChar()
     }
 
+
+    /**
+     * It fetches response from data.json
+     * then response is converted to javascript object
+     * then data ( which is string here ) is converted to array of characters
+     * 
+     * P.S. conceptually it is known that string is nothing but array of chars but
+     *      List has some methods like map... 
+     *     hence it is required to convert string in terms of list of chars explicitly
+     */
     useEffect(() => {
         fetch('http://localhost:8000/para/' + num)
             .then(res => {
@@ -127,6 +201,24 @@ const Home = () => {
             })
     }, [num])
 
+
+    /** function => handleUpdateString()
+     * It is fired everytime user does some activity on input field 
+     * ( like delete, backspace, or type)
+     * 
+     * It makes sure that only that character is highlighted, which user has to type next
+     * it checks if the previous typed character was 
+     * - correct then assign green color to text by applying 'correct' class
+     * - incorrect then assign red color to text by applying 'incorrect' class
+     * 
+     * It also checks if full text is typed
+     * - if 100% correctly typed then display message "congrats"
+     * - else display message "Failed"
+     * 
+     * @param {event} e 
+     * 
+     * P.S. I don't remember why I have used classList.add and not setAttribute at one place 
+     */
     const handleUpdateString = (e) => {
         let old_str = str
         let new_str = e.target.value
@@ -157,8 +249,13 @@ const Home = () => {
         setCounter(new_str.length)
     }
 
-    let handleCustomTextSubmit = () => {
 
+    /**
+     * When user tries to upload his/her own text, this funtion is fired
+     * it uses same method of generate random text... just that instead of fetching
+     * from data.json, this time it overrides that and passes users' provided text
+     */
+    let handleCustomTextSubmit = () => {
         if (cusText) convertTextToChar(cusText)
         else alert('Field cannot be empty')
         setCusText('')
