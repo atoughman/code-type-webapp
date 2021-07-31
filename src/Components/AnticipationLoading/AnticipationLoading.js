@@ -21,7 +21,7 @@ const AnticipationLoading = () => {
     useEffect(() => {
         let interval = setInterval(() => {
             setTime(time => time - 1)
-        }, 1000)
+        }, 600)
 
         return () => {
             // cleanup function
