@@ -53,6 +53,18 @@ const Home = () => {
 
     const [notificationType, setNotificationType] = useState('success')
 
+    const [isCapsOn, setIsCapsOn] = useState(false)
+
+    useEffect(() => {
+        document.querySelector('input[type]').addEventListener('keyup', function (e) {
+            if (e.getModifierState('CapsLock')) {
+                setIsCapsOn(true)
+            } else{
+                setIsCapsOn(false)
+            }
+        })
+    }, [])
+
     /**
      * To generate a random number in range [ 0, DATA_LEN )
      * @returns number
@@ -232,16 +244,6 @@ const Home = () => {
             if (new_str[counter] === givenText[counter]) {
                 listSpan[counter].setAttribute('class', 'correct')
             } else {
-                document.querySelector('input[type]').addEventListener('keyup', function (e) {
-                    // console.log('entered in onkeyup');
-                    if (e.getModifierState('CapsLock')) {
-                        setNotificationMessage('Caps lock is on')
-                        setNotificationType('danger')
-                        setIsNotificationHidden(false)
-                    } else {
-                        setIsNotificationHidden(true)
-                    }
-                })
                 listSpan[counter].setAttribute('class', 'incorrect')
             }
             if (counter + 1 < listSpan.length)
@@ -254,8 +256,18 @@ const Home = () => {
             listSpan[counter - diff].setAttribute('class', 'active')
         }
         if (new_str.length === givenText.length) {
-            if (new_str === givenText) alert('Congratulations, You have successfully typed the given text !!')
-            else alert('You FAILED ( typed incorrect text )... Try Again')
+            if (new_str === givenText) {
+                setNotificationMessage('Congratulations, You have successfully typed the given text !!')
+                setNotificationType('success')
+                setIsNotificationHidden(false)
+            }
+            else {
+                setNotificationMessage('You FAILED ( typed incorrect text )... Try Again')
+                setNotificationType('danger')
+            }
+            setTimeout(() => {
+                setIsNotificationHidden(true)
+            }, 2000);
             new_str = ''
             handleRefresh()
         }
@@ -295,6 +307,7 @@ const Home = () => {
                             <button id="text-box">
                                 {code ? code.map((ch, i) => <span data-id={i} key={i}>{ch}</span>) : 'Loading Text...'}
                             </button>
+                            <p>{isCapsOn && 'CapsLock is ON'}</p>
                         </div>
                     </>
                 }
