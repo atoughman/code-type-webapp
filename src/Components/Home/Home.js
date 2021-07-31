@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 // importing different components
 import AnticipationLoading from "../AnticipationLoading/AnticipationLoading";
 import CustomText from "../CustomText/CustomText";
+import Overlay from "../Global/Overlay/Overlay";
 import Timer from "../Timer/Timer";
 
 // for styling
@@ -43,6 +44,7 @@ const Home = () => {
     // anticipation loading ( eg. 3...2...1..) 
     const [aLoading, setALoading] = useState(true)
 
+    const [isOverlayHidden, setIsOverlayHidden] = useState(true)
 
     /**
      * To generate a random number in range [ 0, DATA_LEN )
@@ -79,13 +81,15 @@ const Home = () => {
     let handleActiveState = () => {
         let textBox = document.querySelector('button[id="text-box"]')
 
-        if (textBox === document.activeElement && message !== '!! Start Typing !!') {
+        if (textBox === document.activeElement) {
             setMessage('!! Start Typing !!')
             document.querySelector('input[type]').focus()
+            // console.log(document.activeElement);
             setIsRunning(true);
         } else if (textBox !== document.activeElement && message === '!! Start Typing !!') {
             setMessage('Click on Below Text to Start Type')
             setIsRunning(false);
+            // console.log(document.activeElement);
         }
 
     }
@@ -106,23 +110,13 @@ const Home = () => {
     }
 
     /**
-     * When user clicks on generate random text... we need to keep everything in place
-     * except, the given text should change... hence
      * - it generates a new random number
-     * - removes all the class states ( active, correct etc. ) from the current text
-     * - reset the timer to 0
      */
     const handleRefresh = () => {
         let rand = num
         while (rand === num) rand = getRandomInt()
-        for (let i = 0; i < listSpan.length; i++) {
-            listSpan[i].removeAttribute('class')
-        }
         setNum(rand)
-        toggleReset()
-        // why we don't have to setIsReset here, without it why does it work ?
-        // bcoz, to change text, we click on button, active element changes,
-        // so it auto sets setIsReset :) in handleActiveState()
+        // setNum fires useeffect after stuff is rendered again.
     }
 
     /**
@@ -262,6 +256,10 @@ const Home = () => {
         toggleReset()
     }
 
+    let handleUpload = () => {
+        setIsOverlayHidden(oldValue => !oldValue)
+    }
+
     return (
         <div className="home" onClick={handleActiveState}>
             <div className="second">
@@ -281,6 +279,8 @@ const Home = () => {
                 <CustomText cusText={cusText} setCusText={setCusText} />
                 <button onClick={handleCustomTextSubmit}>Add Custom Text</button>
                 <button onClick={handleRefresh}>Generate Random Text</button>
+                <button onClick={handleUpload}>Upload</button>
+                <Overlay isHidden={isOverlayHidden} setIsHidden={setIsOverlayHidden}/>
             </div>
         </div>
     );
