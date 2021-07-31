@@ -160,6 +160,7 @@ const Home = () => {
         setALoading(true)
         setIsNotificationHidden(false)
         setNotificationMessage('Loading Text...')
+        setNotificationType('success')
         setTimeout(() => {
             setALoading(false)
             setIsNotificationHidden(true)  
@@ -231,6 +232,16 @@ const Home = () => {
             if (new_str[counter] === givenText[counter]) {
                 listSpan[counter].setAttribute('class', 'correct')
             } else {
+                document.querySelector('input[type]').addEventListener('keyup', function (e) {
+                    // console.log('entered in onkeyup');
+                    if (e.getModifierState('CapsLock')) {
+                        setNotificationMessage('Caps lock is on')
+                        setNotificationType('danger')
+                        setIsNotificationHidden(false)
+                    } else {
+                        setIsNotificationHidden(true)
+                    }
+                })
                 listSpan[counter].setAttribute('class', 'incorrect')
             }
             if (counter + 1 < listSpan.length)
