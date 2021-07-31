@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 // importing different components
 import AnticipationLoading from "../AnticipationLoading/AnticipationLoading";
 import CustomText from "../CustomText/CustomText";
+import Notification from "../Global/Notification/Notification";
 import Overlay from "../Global/Overlay/Overlay";
 import Timer from "../Timer/Timer";
 
@@ -30,7 +31,7 @@ const Home = () => {
     const [givenText, setGivenText] = useState('')
 
     // Guildeline to the user
-    const [message, setMessage] = useState('Click on Below Text to Start Type')
+    const [message, setMessage] = useState('Click on Below Text to Activate')
 
     // Whehter timer is running or stopped
     const [isRunning, setIsRunning] = useState(false)
@@ -45,6 +46,12 @@ const Home = () => {
     const [aLoading, setALoading] = useState(true)
 
     const [isOverlayHidden, setIsOverlayHidden] = useState(true)
+
+    const [isNotificationHidden, setIsNotificationHidden] = useState(true)
+
+    const [notificationMessage, setNotificationMessage] = useState('This is notification ( initial )')
+
+    const [notificationType, setNotificationType] = useState('success')
 
     /**
      * To generate a random number in range [ 0, DATA_LEN )
@@ -87,7 +94,7 @@ const Home = () => {
             // console.log(document.activeElement);
             setIsRunning(true);
         } else if (textBox !== document.activeElement && message === '!! Start Typing !!') {
-            setMessage('Click on Below Text to Start Type')
+            setMessage('Click on Below Text to Activate')
             setIsRunning(false);
             // console.log(document.activeElement);
         }
@@ -151,8 +158,11 @@ const Home = () => {
      */
     const highlighFirstChar = async () => {
         setALoading(true)
+        setIsNotificationHidden(false)
+        setNotificationMessage('Loading Text...')
         setTimeout(() => {
             setALoading(false)
+            setIsNotificationHidden(true)  
         }, 1800);
     }
 
@@ -263,6 +273,7 @@ const Home = () => {
 
     return (
         <div className="home" onClick={handleActiveState}>
+            <Notification isHidden={isNotificationHidden} message={notificationMessage} type={notificationType}/>
             <div className="second">
                 {aLoading
                     ? <AnticipationLoading />

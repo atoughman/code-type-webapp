@@ -1,0 +1,30 @@
+.notification-message {
+    position: absolute;
+    top: 30px;
+    font-size: 2rem;
+    right: 30px;
+    height: auto;
+    width: 400px;
+    padding: 1rem;
+    background-color: #222;
+    color: white;
+
+    &.hide {
+        display: none;
+    }
+
+    &.success {
+        background-color: rgb(203, 255, 124);
+        color: green;
+    }
+
+    &.danger {
+        background-color: rgb(255, 157, 157);
+        color: rgb(187, 20, 20);
+    }
+
+    &.general {
+        background-color: rgb(184, 184, 255);
+        color: rgb(23, 23, 199);
+    }
+}
