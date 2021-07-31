@@ -51,7 +51,7 @@ const Home = () => {
      * @returns number
      */
 
-    let getRandomInt = () => {
+    const getRandomInt = () => {
         return Math.floor(Math.random() * DATA_LEN);
     }
 
@@ -61,7 +61,7 @@ const Home = () => {
     /**
      * It toggles the boolean "reset" between true and false
      */
-    let toggleReset = () => {
+    const toggleReset = () => {
         setIsReset(reset => !reset)
     }
 
@@ -78,7 +78,7 @@ const Home = () => {
      * 
      * P.S I have put double condition check to avoid running this function again and again
      */
-    let handleActiveState = () => {
+    const handleActiveState = () => {
         let textBox = document.querySelector('button[id="text-box"]')
 
         if (textBox === document.activeElement) {
@@ -101,7 +101,7 @@ const Home = () => {
      * toggle reset which help to reset timer to 0
      * auto shift focus to typing text, to save an extra click
      */
-    let handleFocus = () => {
+    const handleFocus = () => {
         document.querySelector('button[id="text-box"]').focus()
         setStr('')
         setCounter(0)
@@ -149,11 +149,11 @@ const Home = () => {
      *  READ MORE about anticipation loader in #4 Pull Request in github
      *  https://github.com/amanRecreates/code-type-webapp/pull/4
      */
-    let highlighFirstChar = async () => {
+    const highlighFirstChar = async () => {
         setALoading(true)
         setTimeout(() => {
             setALoading(false)
-        }, 3000);
+        }, 1800);
     }
 
     /**
@@ -165,7 +165,7 @@ const Home = () => {
      * - At last we highlight the first character of text..to let user know where cursor is.. &
      *   what character to type first.
      */
-    let convertTextToChar = (text) => {
+    const convertTextToChar = (text) => {
         setGivenText(text)
         let listt = []
         for (let i = 0; i < text.length; i++) {
@@ -249,7 +249,7 @@ const Home = () => {
      * it uses same method of generate random text... just that instead of fetching
      * from data.json, this time it overrides that and passes users' provided text
      */
-    let handleCustomTextSubmit = () => {
+    const handleCustomTextSubmit = () => {
         if (cusText) convertTextToChar(cusText)
         else alert('Field cannot be empty')
         setCusText('')
@@ -257,7 +257,7 @@ const Home = () => {
         handleUpload()
     }
 
-    let handleUpload = () => {
+    const handleUpload = () => {
         setIsOverlayHidden(oldValue => !oldValue)
     }
 
@@ -279,6 +279,7 @@ const Home = () => {
                 <input hide="true" type="text" value={str} onChange={handleUpdateString}></input>
                 <button onClick={handleRefresh}>Generate Random Text</button>
                 <button onClick={handleUpload}>Upload Your Own Text</button>
+                <button onClick={highlighFirstChar}>Start Again</button>
                 <Overlay isHidden={isOverlayHidden} setIsHidden={setIsOverlayHidden}>
                     <CustomText cusText={cusText} setCusText={setCusText} />
                     <button onClick={handleCustomTextSubmit}>Add Custom Text</button>
