@@ -254,6 +254,7 @@ const Home = () => {
         else alert('Field cannot be empty')
         setCusText('')
         toggleReset()
+        handleUpload()
     }
 
     let handleUpload = () => {
@@ -276,11 +277,12 @@ const Home = () => {
                     </>
                 }
                 <input hide="true" type="text" value={str} onChange={handleUpdateString}></input>
-                <CustomText cusText={cusText} setCusText={setCusText} />
-                <button onClick={handleCustomTextSubmit}>Add Custom Text</button>
                 <button onClick={handleRefresh}>Generate Random Text</button>
-                <button onClick={handleUpload}>Upload</button>
-                <Overlay isHidden={isOverlayHidden} setIsHidden={setIsOverlayHidden}/>
+                <button onClick={handleUpload}>Upload Your Own Text</button>
+                <Overlay isHidden={isOverlayHidden} setIsHidden={setIsOverlayHidden}>
+                    <CustomText cusText={cusText} setCusText={setCusText} />
+                    <button onClick={handleCustomTextSubmit}>Add Custom Text</button>
+                </Overlay>
             </div>
         </div>
     );
