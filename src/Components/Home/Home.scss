@@ -1,59 +1,49 @@
 .home {
+    height: 100vh;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+
+    .main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    h1 {
+        color: #fabd61;
+        font-size: 2rem;
+    }
+
+    button {
+        margin-top: 50px;
+        border: none;
+        background-color: #2b58ff;
+        box-shadow: 0 0 0 0 rgba(43, 88, 255, 0.2);
+        border-radius: 42px;
+        width: 300px;
+        height: 100px;
+        font-size: 1.5rem;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s ease-in-out all;
+
+        &:hover {
+            transform: scale(1.02);
+            box-shadow: 0px 14px 54px 20px rgba(43, 88, 255, 0.2);
+        }
+
+        &:active {
+            box-shadow: 0 0 0 0 rgba(43, 88, 255, 0.2);
+            transform: scale(0.9);
+            transition: 0.1s ease-in-out all;
+        }
+    }
 }
 
-.second {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-direction: column;
-    height: 30vh;
-}
+video {
+    width: 45%;
 
-input[hide="true"] {
-    opacity: 0;
-    cursor: default;
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    top: 0;
-    left: 0;
-    color: transparent;
-    position: relative;
-}
-
-#text-box {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-}
-
-span {
-    color: #ccc;
-    font-size: 3rem;
-    font-weight: 500;
-    text-align: center;
-    font-family: 'Roboto Mono', monospace;
-}
-
-span.active {
-    background-color: #333;
-    color: white;
-}
-
-span.correct {
-    color: rgb(56, 231, 56);
-}
-
-span.incorrect {
-    color: rgb(224, 37, 37);
-    font-weight: 700;
-}
-
-button {
-    padding: 10px;
-    cursor: pointer;
 }
