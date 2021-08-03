@@ -43,7 +43,26 @@
     }
 }
 
-video {
+.type {
     width: 45%;
 
+}
+
+.loader {
+    position: absolute;
+    z-index: 10;
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.hide {
+        display: none;
+    }
+}
+
+.typewriter {
+    width: 600px;
 }
