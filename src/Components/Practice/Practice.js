@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 // importing different components
 import AnticipationLoading from "../AnticipationLoading/AnticipationLoading";
-import CustomText from "../CustomText/CustomText";
 import Notification from "../Global/Notification/Notification";
 import Overlay from "../Global/Overlay/Overlay";
 import Timer from "../Timer/Timer";
@@ -56,10 +55,11 @@ const Practice = () => {
     const [isCapsOn, setIsCapsOn] = useState(false)
 
     useEffect(() => {
-        document.querySelector('input[type]').addEventListener('keyup', function (e) {
+        document.querySelector('.hidden-input').addEventListener('keyup', function (e) {
             if (e.getModifierState('CapsLock')) {
+                console.log('capslock');
                 setIsCapsOn(true)
-            } else{
+            } else {
                 setIsCapsOn(false)
             }
         })
@@ -101,11 +101,11 @@ const Practice = () => {
         let textBox = document.querySelector('button[id="text-box"]')
 
         if (textBox === document.activeElement) {
-            setMessage('!! Start Typing !!')
+            setMessage(null)
             document.querySelector('input[type]').focus()
             // console.log(document.activeElement);
             setIsRunning(true);
-        } else if (textBox !== document.activeElement && message === '!! Start Typing !!') {
+        } else if (textBox !== document.activeElement && !message) {
             setMessage('Click on Below Text to Activate')
             setIsRunning(false);
             // console.log(document.activeElement);
@@ -175,7 +175,7 @@ const Practice = () => {
         setNotificationType('success')
         setTimeout(() => {
             setALoading(false)
-            setIsNotificationHidden(true)  
+            setIsNotificationHidden(true)
         }, 1800);
     }
 
@@ -293,33 +293,37 @@ const Practice = () => {
     const handleUpload = () => {
         setIsOverlayHidden(oldValue => !oldValue)
     }
-
     return (
         <div className="practice" onClick={handleActiveState}>
-            <Notification isHidden={isNotificationHidden} message={notificationMessage} type={notificationType}/>
+            <Notification isHidden={isNotificationHidden} message={notificationMessage} type={notificationType} />
+            <button className="upload" onClick={handleUpload}>Upload Your Own Text</button>
             <div className="second">
                 {aLoading
                     ? <AnticipationLoading />
                     : <>
-                        <p>{message}</p>
-                        <Timer isRunning={isRunning} isReset={isReset} />
-                        <div className="code-wrapper">
-                            <button id="text-box">
-                                {code ? code.map((ch, i) => <span data-id={i} key={i}>{ch}</span>) : 'Loading Text...'}
-                            </button>
-                            <p>{isCapsOn && 'CapsLock is ON'}</p>
-                        </div>
+                        <p className="message">
+                            {isCapsOn ? 'CapsLock is ON' : message}
+                        </p>
+                        <button id="text-box">
+                            {code ? code.map((ch, i) => <span data-id={i} key={i}>{ch}</span>) : 'Loading Text...'}
+                        </button>
                     </>
                 }
-                <input hide="true" type="text" value={str} onChange={handleUpdateString}></input>
-                <button onClick={handleRefresh}>Generate Random Text</button>
-                <button onClick={handleUpload}>Upload Your Own Text</button>
-                <button onClick={highlighFirstChar}>Start Again</button>
-                <Overlay isHidden={isOverlayHidden} setIsHidden={setIsOverlayHidden}>
-                    <CustomText cusText={cusText} setCusText={setCusText} />
-                    <button onClick={handleCustomTextSubmit}>Add Custom Text</button>
-                </Overlay>
+                <input className="hidden-input" hide="true" type="text" value={str} onChange={handleUpdateString}></input>
+                <div className="buttons">
+                    <button className="restart" onClick={highlighFirstChar}>Restart</button>
+                    <button className="generate" onClick={handleRefresh}>Generate Random Text</button>
+                </div>
             </div>
+            <Overlay
+                isHidden={isOverlayHidden}
+                setIsHidden={setIsOverlayHidden}
+                cusText={cusText}
+                setCusText={setCusText}
+                save={handleCustomTextSubmit}
+            >
+            </Overlay>
+            <Timer isRunning={isRunning} isReset={isReset} />
         </div>
     );
 }

@@ -34,7 +34,7 @@ const Timer = ({isRunning, isReset}) => {
     }, [isRunning])
 
     return (
-        <p>Time Elapsed : {time} sec</p>
+        <p className="stopwatch">Time Elapsed : {time} sec</p>
     );
 }
  

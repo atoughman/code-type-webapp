@@ -4,7 +4,8 @@
 
 ![image](https://user-images.githubusercontent.com/87216333/128066418-21618c19-12ae-47cb-9084-ee1e8f9a41e3.png)
 
-![image](https://user-images.githubusercontent.com/87216333/128066570-655ac052-b79e-4772-8fbf-89d6938d26a7.png)
+![image](https://user-images.githubusercontent.com/87216333/128135866-f2a52024-1abd-483f-8144-5cd16972369b.png)
+
 
 #### _To start the webapp, you can run:_
 
