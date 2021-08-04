@@ -59,7 +59,7 @@ const Practice = () => {
         document.querySelector('input[type]').addEventListener('keyup', function (e) {
             if (e.getModifierState('CapsLock')) {
                 setIsCapsOn(true)
-            } else{
+            } else {
                 setIsCapsOn(false)
             }
         })
@@ -175,7 +175,7 @@ const Practice = () => {
         setNotificationType('success')
         setTimeout(() => {
             setALoading(false)
-            setIsNotificationHidden(true)  
+            setIsNotificationHidden(true)
         }, 1800);
     }
 
@@ -194,6 +194,7 @@ const Practice = () => {
         for (let i = 0; i < text.length; i++) {
             listt.push(text[i]);
         }
+        console.log(listt)
         setCode(listt)
         highlighFirstChar()
     }
@@ -293,33 +294,33 @@ const Practice = () => {
     const handleUpload = () => {
         setIsOverlayHidden(oldValue => !oldValue)
     }
-
+    console.log(code);
     return (
         <div className="practice" onClick={handleActiveState}>
-            <Notification isHidden={isNotificationHidden} message={notificationMessage} type={notificationType}/>
+            <Notification isHidden={isNotificationHidden} message={notificationMessage} type={notificationType} />
+            <button className="upload" onClick={handleUpload}>Upload Your Own Text</button>
             <div className="second">
                 {aLoading
                     ? <AnticipationLoading />
                     : <>
-                        <p>{message}</p>
-                        <Timer isRunning={isRunning} isReset={isReset} />
-                        <div className="code-wrapper">
-                            <button id="text-box">
-                                {code ? code.map((ch, i) => <span data-id={i} key={i}>{ch}</span>) : 'Loading Text...'}
-                            </button>
-                            <p>{isCapsOn && 'CapsLock is ON'}</p>
-                        </div>
+                        <p className="message">{message}</p>
+                        <button id="text-box">
+                            {code ? code.map((ch, i) => <span data-id={i} key={i}>{ch}</span>) : 'Loading Text...'}
+                        </button>
+                        <p>{isCapsOn && 'CapsLock is ON'}</p>
+                        <input hide="true" type="text" value={str} onChange={handleUpdateString}></input>
                     </>
                 }
-                <input hide="true" type="text" value={str} onChange={handleUpdateString}></input>
-                <button onClick={handleRefresh}>Generate Random Text</button>
-                <button onClick={handleUpload}>Upload Your Own Text</button>
-                <button onClick={highlighFirstChar}>Start Again</button>
-                <Overlay isHidden={isOverlayHidden} setIsHidden={setIsOverlayHidden}>
-                    <CustomText cusText={cusText} setCusText={setCusText} />
-                    <button onClick={handleCustomTextSubmit}>Add Custom Text</button>
-                </Overlay>
+                <div className="buttons">
+                    <button className="restart" onClick={highlighFirstChar}>Restart</button>
+                    <button className="generate" onClick={handleRefresh}>Generate Random Text</button>
+                </div>
             </div>
+            <Overlay isHidden={isOverlayHidden} setIsHidden={setIsOverlayHidden}>
+                <CustomText cusText={cusText} setCusText={setCusText} />
+                <button onClick={handleCustomTextSubmit}>Add Custom Text</button>
+            </Overlay>
+            <Timer isRunning={isRunning} isReset={isReset} />
         </div>
     );
 }

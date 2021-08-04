@@ -5,14 +5,56 @@
     height: 100vh;
 }
 
+.upload {
+    position: absolute;
+    border-radius: 23px;
+    top: 30px;
+    right: 40px;
+    box-shadow: 0px 34px 54px -20px rgba(116, 116, 116, 0.4);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 1rem 2rem;
+    background-color: #fff;
+    transition: 0.3s ease-in-out all;
+    
+    &:hover {
+        background-color: #eee;     
+    }
+    
+    &:active {
+        box-shadow: 0px 0 0 0 rgba(158, 158, 158, 0.4); 
+        transform: scale(0.9);
+    }
+}
 .second {
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
     height: 30vh;
+    width: 100%;
+    position: relative;
+    
 }
 
+.generate {
+    border-radius: 23px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 34px 54px -20px rgba(43, 88, 255, 0.4);
+    padding: 1rem 2rem;
+    background-color: #2B58FF;
+    transition: 0.3s ease-in-out all;
+    color: white;
+    
+    &:hover {
+        background-color: #1842d6;
+    }
+    
+    
+    &:active {
+        box-shadow: 0px 0 0 0 rgba(43, 88, 255, 0.4); 
+        transform: scale(0.9);
+    }
+}
 input[hide="true"] {
     opacity: 0;
     cursor: default;
@@ -25,10 +67,21 @@ input[hide="true"] {
     position: relative;
 }
 
+.message {
+    position: relative;
+    bottom: 30px;
+}
+
 #text-box {
-    background-color: transparent;
+    background-color: #eee;
     border: none;
     cursor: pointer;
+    height: 100%;
+    min-height: 100%;
+    min-width: 80%;
+    padding: 2rem;
+    border-radius: 23px;
+    margin-bottom: 30px;
 }
 
 span {
@@ -36,7 +89,7 @@ span {
     font-size: 3rem;
     font-weight: 500;
     text-align: center;
-    font-family: 'Roboto Mono', monospace;
+    font-family: "Roboto Mono", monospace;
 }
 
 span.active {
@@ -56,4 +109,28 @@ span.incorrect {
 button {
     padding: 10px;
     cursor: pointer;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 500px;
+    position: absolute;
+    bottom: -100px;
+}
+
+.restart {
+    border-radius: 23px;
+    border: none;
+    background-color: transparent;
+    padding: 1rem 2rem;
+    transition: 0.3s ease-in-out all;
+    &:hover {
+        background-color: #eee;
+    }
+
+    &:active {
+        transform: scale(0.9);
+    }
 }
