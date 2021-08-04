@@ -94,8 +94,9 @@ span {
 }
 
 span.active {
-    background-color: #333;
+    background-color: #333; 
     color: white;
+    animation: infinite blink 1s ease-in;
 }
 
 span.correct {
@@ -110,6 +111,11 @@ span.incorrect {
 button {
     padding: 10px;
     cursor: pointer;
+}
+
+@keyframes blink {
+    from {background-color: #333; color: #ccc;}
+    to {background-color: white; color: #333;}
 }
 
 .buttons {
