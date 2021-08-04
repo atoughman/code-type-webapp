@@ -5,16 +5,18 @@ const Overlay = (props) => {
 
     useEffect(() => {
         if(props.isHidden) {
-            document.querySelector('.overlay').classList.add('hide')
+            document.querySelector('.backdrop').classList.add('hide')
         } else {
-            document.querySelector('.overlay').setAttribute('class','overlay')
+            document.querySelector('.backdrop').setAttribute('class','backdrop')
         }
     }, [props.isHidden])
 
     return (
-        <div className="overlay">
-            {props.children}
-            <button className="cross" onClick={() => props.setIsHidden(old_value => !old_value)}>Close</button>
+        <div className="backdrop">
+            <div className="overlay">
+                {props.children}
+                <button className="cross" onClick={() => props.setIsHidden(old_value => !old_value)}>Close</button>
+            </div>
         </div>
     );
 }
