@@ -84,6 +84,18 @@ const Practice = () => {
         setIsReset(reset => !reset)
     }
 
+    /*
+     * Using visibilitychange Event we can keep track if the current tab/window is in focus or not.
+     * Using the setIsRunning hook to pause and play the timer
+    */
+    document.addEventListener("visibilitychange", function() {
+        if (document.visibilityState !== 'visible') {
+            setIsRunning(false);
+        } else {
+            setIsRunning(true);
+        }
+    });
+
     /** function => handleActiveState()
      * It is used to detect if a user is eligible to type the text... and hence displays
      * corresponding message on screen.
@@ -110,7 +122,6 @@ const Practice = () => {
             setIsRunning(false);
             // console.log(document.activeElement);
         }
-
     }
 
     /**
