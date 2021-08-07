@@ -53,6 +53,10 @@ const Practice = () => {
     const [notificationType, setNotificationType] = useState('success')
 
     const [isCapsOn, setIsCapsOn] = useState(false)
+    
+    const [blinkingInterval, setblinkingInterval] = useState(null)
+
+    const [isBlinkActive, setIsBlinkActive] = useState(true)
 
     useEffect(() => {
         document.querySelector('.hidden-input').addEventListener('keyup', function (e) {
@@ -88,13 +92,13 @@ const Practice = () => {
      * Using visibilitychange Event we can keep track if the current tab/window is in focus or not.
      * Using the setIsRunning hook to pause and play the timer
     */
-    document.addEventListener("visibilitychange", function() {
-        if (document.visibilityState !== 'visible') {
-            setIsRunning(false);
-        } else {
-            setIsRunning(true);
-        }
-    });
+    // document.addEventListener("visibilitychange", function() {
+    //     if (document.visibilityState !== 'visible') {
+    //         setIsRunning(false);
+    //     } else {
+    //         setIsRunning(true);
+    //     }
+    // });
 
     /** function => handleActiveState()
      * It is used to detect if a user is eligible to type the text... and hence displays
@@ -120,6 +124,7 @@ const Practice = () => {
         } else if (textBox !== document.activeElement && !message) {
             setMessage('Click on Below Text to Activate')
             setIsRunning(false);
+            clearInterval(blinkingInterval)
             // console.log(document.activeElement);
         }
     }
@@ -149,6 +154,27 @@ const Practice = () => {
         // setNum fires useeffect after stuff is rendered again.
     }
 
+    const addBlinking = (target) => {
+        if(blinkingInterval !== null) {
+            clearInterval(blinkingInterval)
+        }
+        target.classList.add('active')
+        setIsBlinkActive(true)
+
+        const interval = setInterval(() => {
+            setIsBlinkActive(blink => {
+                if(blink) {
+                    target.removeAttribute('class')
+                } else {
+                    target.classList.add('active')
+                }
+                return !blink
+            })
+        }, 300); 
+
+        setblinkingInterval(interval)
+    }
+
     /**
      * It is fired when we need anticipation loader
      * to fire this, we just toggle aLoading variable
@@ -165,7 +191,7 @@ const Practice = () => {
         if (!aLoading) {
             let tmp = document.querySelectorAll('span[data-id]')
             setListSpan(tmp)
-            tmp[0].setAttribute('class', 'active')   // to highlight the first character
+            addBlinking(tmp[0])
             handleFocus()
         }
     }, [aLoading])
@@ -229,6 +255,7 @@ const Practice = () => {
             })
     }, [num])
 
+    
 
     /** function => handleUpdateString()
      * It is fired everytime user does some activity on input field 
@@ -257,14 +284,15 @@ const Practice = () => {
             } else {
                 listSpan[counter].setAttribute('class', 'incorrect')
             }
-            if (counter + 1 < listSpan.length)
-                listSpan[counter + 1].classList.add('active')
+            if (counter + 1 < listSpan.length) {
+                addBlinking(listSpan[counter + 1]);
+            }
         } else {
             let diff = old_str.length - new_str.length
             for (let i = 0; i <= diff; i++) {
                 listSpan[counter - i].removeAttribute('class')
             }
-            listSpan[counter - diff].setAttribute('class', 'active')
+            addBlinking(listSpan[counter - diff])
         }
         if (new_str.length === givenText.length) {
             if (new_str === givenText) {
