@@ -53,21 +53,11 @@ const Practice = () => {
     const [notificationType, setNotificationType] = useState('success')
 
     const [isCapsOn, setIsCapsOn] = useState(false)
-    
+
     const [blinkingInterval, setblinkingInterval] = useState(null)
 
     const [isBlinkActive, setIsBlinkActive] = useState(true)
 
-    useEffect(() => {
-        document.querySelector('.hidden-input').addEventListener('keyup', function (e) {
-            if (e.getModifierState('CapsLock')) {
-                console.log('capslock');
-                setIsCapsOn(true)
-            } else {
-                setIsCapsOn(false)
-            }
-        })
-    }, [])
 
     /**
      * To generate a random number in range [ 0, DATA_LEN )
@@ -88,17 +78,34 @@ const Practice = () => {
         setIsReset(reset => !reset)
     }
 
-    /*
-     * Using visibilitychange Event we can keep track if the current tab/window is in focus or not.
-     * Using the setIsRunning hook to pause and play the timer
-    */
-    // document.addEventListener("visibilitychange", function() {
-    //     if (document.visibilityState !== 'visible') {
-    //         setIsRunning(false);
-    //     } else {
-    //         setIsRunning(true);
-    //     }
-    // });
+    useEffect(() => {
+        document.querySelector('.hidden-input').addEventListener('keyup', function (e) {
+            if (e.getModifierState('CapsLock')) {
+                setIsCapsOn(true)
+            } else {
+                setIsCapsOn(false)
+            }
+        })
+        /*
+        * Using visibilitychange Event we can keep track if the current tab/window is in focus or not.
+        * Using the setIsRunning hook to pause and play the timer
+        */
+
+    }, [])
+
+    useEffect(() => {
+        console.log('visibility event listener fired');
+        if(listSpan) pause()
+    }, [document.visibilityState])
+
+    const fun = () => {
+        let textBox = document.querySelector('button[id="text-box"]')
+        if (textBox === document.activeElement) {
+            play(true)
+        } else if (textBox !== document.activeElement) {
+            pause()
+        }
+    }
 
     /** function => handleActiveState()
      * It is used to detect if a user is eligible to type the text... and hence displays
@@ -113,20 +120,35 @@ const Practice = () => {
      * 
      * P.S I have put double condition check to avoid running this function again and again
      */
-    const handleActiveState = () => {
-        let textBox = document.querySelector('button[id="text-box"]')
+    // const handleActiveState = () => {
+    //     console.log('yes');
+    //     // document.querySelector('button[id="text-box"]').addEventListener('mousedown', function (e) {
+    //     //     console.log('keydown fired');
+    //     //     setIsRunning(true);
+    //     // })
+    //     let textBox = document.querySelector('button[id="text-box"]')
 
-        if (textBox === document.activeElement) {
-            setMessage(null)
-            document.querySelector('input[type]').focus()
-            // console.log(document.activeElement);
-            setIsRunning(true);
-        } else if (textBox !== document.activeElement && !message) {
-            setMessage('Click on Below Text to Activate')
-            setIsRunning(false);
-            clearInterval(blinkingInterval)
-            // console.log(document.activeElement);
-        }
+    //     if (textBox === document.activeElement) {
+
+    //     } else if (textBox !== document.activeElement && !message) {
+
+    //     }
+    // }
+
+    const play = (afterLoad) => {
+        setMessage(null)
+        document.querySelector('input[type]').focus()
+        setIsRunning(true)
+        if (afterLoad) addBlinking(listSpan[counter])
+    }
+
+    const pause = () => {
+        setMessage('Click on Below Text to Activate')
+        setIsRunning(false);
+        console.log('cleared interval ', blinkingInterval);
+        clearInterval(blinkingInterval)
+        listSpan[counter].removeAttribute('class')
+        listSpan[counter].classList.add('start')
     }
 
     /**
@@ -137,11 +159,10 @@ const Practice = () => {
      * auto shift focus to typing text, to save an extra click
      */
     const handleFocus = () => {
-        document.querySelector('button[id="text-box"]').focus()
         setStr('')
         setCounter(0)
         toggleReset()
-        handleActiveState()
+        play(false)
     }
 
     /**
@@ -155,24 +176,28 @@ const Practice = () => {
     }
 
     const addBlinking = (target) => {
-        if(blinkingInterval !== null) {
+        console.log('add blinking called', blinkingInterval)
+        if (blinkingInterval !== null) {
+            console.log('cleared interval ', blinkingInterval);
             clearInterval(blinkingInterval)
         }
-        target.classList.add('active')
+
+        target.setAttribute('class', 'active')
         setIsBlinkActive(true)
 
         const interval = setInterval(() => {
             setIsBlinkActive(blink => {
-                if(blink) {
+                if (blink) {
                     target.removeAttribute('class')
                 } else {
-                    target.classList.add('active')
+                    target.setAttribute('class', 'active')
                 }
                 return !blink
             })
-        }, 300); 
+        }, 300);
 
         setblinkingInterval(interval)
+        console.log('new blinking ', interval)
     }
 
     /**
@@ -196,25 +221,32 @@ const Practice = () => {
         }
     }, [aLoading])
 
+    const highlighFirstChar = () => {
+        // making sure, each value is reseted...
 
-    /**
-     * - we are intentionally making user wait for 3 seconds... coz till then aLoading is true
-     *   and hence anticipation loader is shown.
-     * 
-     *  P.S. Not sure if it has to be async
-     *  READ MORE about anticipation loader in #4 Pull Request in github
-     *  https://github.com/amanRecreates/code-type-webapp/pull/4
-     */
-    const highlighFirstChar = async () => {
+        if (blinkingInterval) {
+            console.log('cleared interval ', blinkingInterval);
+            clearInterval(blinkingInterval)
+        }
         setALoading(true)
         setIsNotificationHidden(false)
         setNotificationMessage('Loading Text...')
         setNotificationType('success')
+
+        /**
+         * - we are intentionally making user wait for 3 seconds... coz till then aLoading is true
+         *   and hence anticipation loader is shown.
+         * 
+         *  P.S. Not sure if it has to be async
+         *  READ MORE about anticipation loader in #4 Pull Request in github
+         *  https://github.com/amanRecreates/code-type-webapp/pull/4
+         */
         setTimeout(() => {
             setALoading(false)
             setIsNotificationHidden(true)
         }, 1800);
     }
+
 
     /**
      * It converts given text to array where each index stores single character
@@ -233,6 +265,7 @@ const Practice = () => {
         }
         setCode(listt)
         highlighFirstChar()
+
     }
 
 
@@ -255,7 +288,7 @@ const Practice = () => {
             })
     }, [num])
 
-    
+
 
     /** function => handleUpdateString()
      * It is fired everytime user does some activity on input field 
@@ -333,7 +366,7 @@ const Practice = () => {
         setIsOverlayHidden(oldValue => !oldValue)
     }
     return (
-        <div className="practice" onClick={handleActiveState}>
+        <div className="practice" onClick={fun}>
             <Notification isHidden={isNotificationHidden} message={notificationMessage} type={notificationType} />
             <button className="upload" onClick={handleUpload}>Upload Your Own Text</button>
             <div className="second">
