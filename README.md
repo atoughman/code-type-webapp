@@ -9,9 +9,6 @@
 
 #### _To start the webapp, you can run:_
 
-### `Start Backend`
-```console
-npx json-server --watch .\src\Data\data.json --port 8000 -y
 ```
 ### `Start Frontend`
 ```console
