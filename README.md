@@ -9,7 +9,6 @@
 
 #### _To start the webapp, you can run:_
 
-```
 ### `Start Frontend`
 ```console
 npm start
