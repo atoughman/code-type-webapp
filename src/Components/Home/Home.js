@@ -4,7 +4,7 @@ import './Home.scss'
 import video from '../../assets/typing.mp4'
 import typewriter from '../../assets/typewriter.mp4'
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const Home = () => {
 
