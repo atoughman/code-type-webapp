@@ -31,5 +31,8 @@ eg-
 P.S. NCFS - "New Component From Scratch"
 previously NCFS was NCB "New Component Built" which you may find in commit history :)
 
+Sometimes Code works fine, but console logs some errors. When you fix them explicitly in commit. Name it like below
+[ console ] fix
+
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
