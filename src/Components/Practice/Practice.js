@@ -279,12 +279,16 @@ const Practice = () => {
      *     hence it is required to convert string in terms of list of chars explicitly
      */
     useEffect(() => {
-        fetch('http://localhost:8000/para/' + num)
+        fetch(`https://code-type-webapp-default-rtdb.firebaseio.com/para/${num}.json`)
             .then(res => {
                 return res.json()
             })
             .then(data => {
+                console.log(data.text);
                 convertTextToChar(data.text)
+            }).catch(err => {
+                alert(err.message)
+                convertTextToChar(err.message)
             })
     }, [num])
 
