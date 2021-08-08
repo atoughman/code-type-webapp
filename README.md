@@ -2,10 +2,15 @@
 
 ## The Aim of the this webapp to provide a platform for coders which can help them increase their <strike>Typing</strike> CODING speed.
 
-![image](https://user-images.githubusercontent.com/87216333/128066418-21618c19-12ae-47cb-9084-ee1e8f9a41e3.png)
+![code-type2](https://user-images.githubusercontent.com/60295217/128626596-61c98474-21c2-4c8a-8f57-58674fa0a6bf.gif)
 
-![image](https://user-images.githubusercontent.com/87216333/128135866-f2a52024-1abd-483f-8144-5cd16972369b.png)
+![code-type3](https://user-images.githubusercontent.com/60295217/128626616-044a703c-9a85-4be8-95b2-dd028f49e9db.gif)
 
+
+### `Install dependencies`
+```console
+npm install
+```
 
 #### _To start the webapp, you can run:_
 
