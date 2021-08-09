@@ -23,6 +23,9 @@ span{
 	font-size: 1rem;
 	color: olivedrab;
 }
+span a{
+	color: red;
+}
 
 .body-1{
 	display: grid;

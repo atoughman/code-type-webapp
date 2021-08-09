@@ -17,7 +17,7 @@ function Error() {
         </div>
         <div className="body-2">
             <h6>Developer's note:</h6>
-            <p>If you are developer of this site, and you weren't expecting a 404 error for this path, please visit Netlify's <span>"page not found" support guide</span> for troubleshooting tips.</p>
+            <p>If you are developer of this site, and you weren't expecting a 404 error for this path, please visit Netlify's <span><a target="_blank" href="https://answers.netlify.com/t/page-not-found-after-deployment/2362">"page not found"</a> support guide</span> for troubleshooting tips.</p>
         </div>
         </div>
         </>
