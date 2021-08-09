@@ -1,0 +1,59 @@
+
+*{
+	box-sizing: border-box;
+}
+
+body{
+	background-color: whitesmoke;
+}
+
+.main{
+	display: grid;
+	width: 40vw;	
+	height: 40vh;
+	margin: 30vh auto;
+	border-radius: 2rem;
+	align-content: evenly-spaced;
+	background-color: lightgray;
+	padding: 2rem;
+	box-shadow: 5px 5px 20px 5px dimgray;
+}
+
+span{
+	font-size: 1rem;
+	color: olivedrab;
+}
+
+.body-1{
+	display: grid;
+	text-align: justify;
+	align-content: space-around;
+}
+
+.header{
+	align-self: start;
+	justify-self: left;
+	width: 100%;
+
+}
+
+.hr{
+	height: 5px;
+	background-color: black;
+	width: 100%;
+	align-self: start;
+	margin: 5px auto;
+	border-radius: 5px;
+}
+.hr-2{
+	height: 3px;
+	background-color: black;
+	width: 100%;
+	margin: 2px auto;
+	border-radius: 5px;
+}
+
+.body-2{
+		text-align: justify;
+
+}
