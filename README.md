@@ -23,7 +23,6 @@ npm start
 ## Who Can Contribute ?
 Designers and Developers both can contribute :)
 ### Contribution Guideline
-#### If you are working on an issue, please comment there, I will assign it to you, so that multiple people won't work on same issue :)
 commit message should be as follows:
 
 [ TYPE ] SHORT DESCRIPTION
@@ -36,9 +35,16 @@ eg-
 P.S. NCFS - "New Component From Scratch"
 previously NCFS was NCB "New Component Built" which you may find in commit history :)
 
-
 Sometimes Code works fine, but console logs some errors. When you fix them explicitly in commit. Name it like below
 [ console ] fix
+
+#### Pull Request
+If you are working on an issue, comment on that issue " I am working on this issue "
+lets say you are working on #3, #5 issue then, name it as follows:
+[ FIX ] fixed #3, #5
+and its description should contain 
+#3 -> Name of the issue
+#5 -> Name of the issue 
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
