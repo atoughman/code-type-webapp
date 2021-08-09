@@ -23,6 +23,7 @@ npm start
 ## Who Can Contribute ?
 Designers and Developers both can contribute :)
 ### Contribution Guideline
+#### If you are working on an issue, please comment there, I will assign it to you, so that multiple people won't work on same issue :)
 commit message should be as follows:
 
 [ TYPE ] SHORT DESCRIPTION
