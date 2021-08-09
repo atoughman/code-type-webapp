@@ -19,6 +19,8 @@ npm install
 npm start
 ```
 
+## Who Can Contribute ?
+Designers and Developers both can contribute :)
 ### Contribution Guideline
 commit message should be as follows:
 
