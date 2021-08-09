@@ -8,6 +8,7 @@
 
 
 ### `Install dependencies`
+### Don't forget to first update your npm to latest version, 
 ```console
 npm install
 ```
@@ -33,6 +34,7 @@ eg-
 
 P.S. NCFS - "New Component From Scratch"
 previously NCFS was NCB "New Component Built" which you may find in commit history :)
+
 
 Sometimes Code works fine, but console logs some errors. When you fix them explicitly in commit. Name it like below
 [ console ] fix
