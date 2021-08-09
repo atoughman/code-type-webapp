@@ -1,31 +1,41 @@
 
 *{
 	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
 body{
 	background-color: whitesmoke;
 }
 
-.main{
+.error-container{
 	display: grid;
-	width: 40vw;	
-	height: 40vh;
-	margin: 30vh auto;
+	/*width: 100vw;*/
+	height: 100vh;
+	align-content: center;
+	justify-content: center;
+}
+
+.error-message{
+	display: grid;
+	width: 45vmax;	
+	height: fit-content;
+	/*margin: 10vmax auto;*/
 	border-radius: 2rem;
-	align-content: evenly-spaced;
+	align-content: center;
+	justify-content: center;
 	background-color: lightgray;
-	padding: 2rem;
+	padding: 3rem;
 	box-shadow: 5px 5px 20px 5px dimgray;
 }
 
 span{
 	font-size: 1rem;
 	color: olivedrab;
+	color: rebeccapurple;
 }
-span a{
-	color: red;
-}
+
 
 .body-1{
 	display: grid;
@@ -37,7 +47,6 @@ span a{
 	align-self: start;
 	justify-self: left;
 	width: 100%;
-
 }
 
 .hr{
@@ -45,11 +54,11 @@ span a{
 	background-color: black;
 	width: 100%;
 	align-self: start;
-	margin: 5px auto;
+	margin: 4px auto;
 	border-radius: 5px;
 }
 .hr-2{
-	height: 3px;
+	height: 1px;
 	background-color: black;
 	width: 100%;
 	margin: 2px auto;
@@ -58,5 +67,4 @@ span a{
 
 .body-2{
 		text-align: justify;
-
 }
